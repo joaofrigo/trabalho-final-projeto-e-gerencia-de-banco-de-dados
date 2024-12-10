@@ -9,7 +9,7 @@ def conexao():
         return mysql.connector.connect(
             host='192.168.100.56',
             user='host',
-            password='963852741',
+            password='batata',
             database='escalas'
         )
     except mysql.connector.Error as e:
