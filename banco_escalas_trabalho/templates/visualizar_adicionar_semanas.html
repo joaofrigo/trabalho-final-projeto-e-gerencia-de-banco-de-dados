@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar ou Adicionar Semanas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .button {
+            padding: 8px 15px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visualizar ou Adicionar Semanas</h1>
+    <div class="container">
+        <h2>Lista de Semanas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Número da Semana</th>
+                    <th>Data de Início</th>
+                    <th>Data de Fim</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if semanas %}
+                    {% for semana in semanas %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ semana.data_inicio }}</td>
+                            <td>{{ semana.data_fim }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">Nenhuma semana encontrada.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <div class="button-container">
+            <a href="{% url 'template_home' %}" class="button">Voltar para a Home</a>
+            <form method="post" action="{% url 'visualizar_adicionar_semanas' %}">
+                {% csrf_token %}
+                <button type="submit" class="button">Adicionar Semana</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

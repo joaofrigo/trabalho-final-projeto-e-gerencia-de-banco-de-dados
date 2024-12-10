@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Funcionários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .vazio {
+            font-style: italic;
+            color: #888;
+        }
+        .button {
+            padding: 8px 15px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button-delete {
+            background-color: #ff4d4d; /* Cor vermelha */
+        }
+        .button-delete:hover {
+            background-color: #b30000; /* Tom mais escuro de vermelho */
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pagination {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .pagination a {
+            padding: 8px 15px;
+            margin: 0 2px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+        .pagination span {
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de escalas de trabalho</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>Turno</th>
+                    <th>Data</th>
+                    <th>Observação</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if dados_funcionarios %}
+                    {% for funcionario in dados_funcionarios %}
+                        <tr>
+                            <td>{{ funcionario.0|default:"Vazio" }}</td>
+                            <td>{{ funcionario.1|default:"Vazio" }}</td>
+                            <td>{{ funcionario.2|default:"Vazio" }}</td>
+                            <td>{{ funcionario.3|default:"Vazio" }}</td>
+                            <td>{{ funcionario.4|default:"Vazio" }}</td>
+                            <td>{{ funcionario.5|default:"Vazio" }}</td>
+                            <td>
+                                <form method="post" action="{% url 'excluir_escala' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="escala_id" value="{{ funcionario.6 }}">
+                                    <button type="submit" class="button button-delete">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>Vazio</td>
+                        <td>Vazio</td>
+                        <td>Vazio</td>
+                        <td>Vazio</td>
+                        <td>Vazio</td>
+                        <td>Vazio</td>
+                        <td><a href="#" class="button">Excluir</a></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% if dados_funcionarios.has_previous %}
+                <a href="?page=1">Primeira</a>
+                <a href="?page={{ dados_funcionarios.previous_page_number }}">Anterior</a>
+            {% endif %}
+            <span>Página {{ dados_funcionarios.number }} de {{ dados_funcionarios.paginator.num_pages }}</span>
+            {% if dados_funcionarios.has_next %}
+                <a href="?page={{ dados_funcionarios.next_page_number }}">Próxima</a>
+                <a href="?page={{ dados_funcionarios.paginator.num_pages }}">Última</a>
+            {% endif %}
+        </div>
+        <div class="button-container">
+            <a href="{% url 'cadastrar_departamento' %}" class="button">Cadastrar Departamento</a>
+            <a href="{% url 'cadastrar_cargo' %}" class="button">Cadastrar Cargo</a>
+            <a href="{% url 'cadastrar_funcionario' %}" class="button">Cadastrar Funcionário</a>
+            <a href="{% url 'visualizar_adicionar_semanas' %}" class="button">Visualizar ou Adicionar Semanas</a>
+            <a href="{% url 'cadastrar_escala' %}" class="button">Cadastrar Escala</a>
+            <a href="{% url 'template_home' %}" class="button">Voltar</a>
+        </div>
+    </div>
+</body>
+</html>
