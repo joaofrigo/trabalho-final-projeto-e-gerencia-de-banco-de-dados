@@ -5,15 +5,14 @@ from datetime import datetime, timedelta
 from django.core.paginator import Paginator
 
 def conexao():
-    try:
+
         return mysql.connector.connect(
-            host='192.168.100.56',
+            host='54.167.111.252',
             user='host',
             password='batata',
             database='escalas'
         )
-    except mysql.connector.Error as e:
-        return HttpResponse(f"Erro na conexão com o banco de dados: {e}", status=500)
+
 
 
 def home_view(request):
