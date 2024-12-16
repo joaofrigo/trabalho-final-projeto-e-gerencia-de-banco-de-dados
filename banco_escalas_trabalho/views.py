@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 def conexao():
 
         return mysql.connector.connect(
-            host='54.167.111.252',
+            host='54.167.2.150',
             user='host',
             password='batata',
             database='escalas'
