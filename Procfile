@@ -1,1 +1,1 @@
-web: gunicorn projeto_residuos.wsgi --bind 0.0.0.0:$PORT
+web: gunicorn banco_escalas_trabalho.wsgi --bind 0.0.0.0:$PORT
